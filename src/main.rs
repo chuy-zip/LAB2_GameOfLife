@@ -1,53 +1,67 @@
-extern crate nalgebra_glm as glm;
-
-use glm::Vec3;
-use minifb::{Window, WindowOptions};
+use minifb::{Key, Window, WindowOptions};
 use std::time::Duration;
 
 mod framebuffer;
-mod line;
-mod polygon;
+mod cells;
 
-use crate::framebuffer::Framebuffer;
-use crate::polygon::Polygon;
+use framebuffer::Framebuffer;
+use cells::Cells;
+
+fn render(framebuffer: &mut Framebuffer, cells: &Cells) {
+    // Clear the framebuffer
+    framebuffer.set_background_color(0x333355);
+    framebuffer.clear();
+
+    // Draw cells based on their state
+    framebuffer.set_current_color(0xFFDDDD);
+    for y in 0..cells.height {
+        for x in 0..cells.width {
+            if cells.is_alive(x, y) {
+                framebuffer.point(x, y);
+            }
+        }
+    }
+}
 
 fn main() {
-    let window_width = 800;
-    let window_height = 600;
+    let window_width = 200;
+    let window_height = 200;
 
-    let framebuffer_width = window_width;
-    let framebuffer_height = window_height;
+    let framebuffer_width = 80;
+    let framebuffer_height = 60;
 
-    let close_delay = Duration::from_secs(10);
+    let frame_delay = Duration::from_millis(16);
 
     let mut framebuffer = Framebuffer::new(framebuffer_width, framebuffer_height);
+    let mut cells = Cells::new(framebuffer_width, framebuffer_height);
+
+    // Ejemplo: establecer algunas células vivas
+    cells.set_alive(10, 10);
+    cells.set_alive(11, 10);
+    cells.set_alive(12, 10);
 
     let mut window = Window::new(
-        "Hello window :o",
+        "Rust Graphics - Render Loop Example",
         window_width,
         window_height,
         WindowOptions::default(),
     )
     .unwrap();
 
-    framebuffer.set_background_color(0x000000);
-    framebuffer.clear();
+    while window.is_open() {
+        // listen to inputs
+        if window.is_key_down(Key::Escape) {
+            break;
+        }
 
-    let max_y = framebuffer.height as f32;
+        // render
+        render(&mut framebuffer, &cells);
 
-    let flip_y = |y: f32| max_y - y;
+        // Update the window with the framebuffer contents
+        window
+            .update_with_buffer(&framebuffer.buffer, framebuffer_width, framebuffer_height)
+            .unwrap();
 
-    let points = vec![
-        Vec3::new(100.0, flip_y(100.0), 0.0),
-        Vec3::new(200.0, flip_y(100.0), 0.0),
-        Vec3::new(150.0, flip_y(200.0), 0.0),
-    ];
-
-    framebuffer.filled_polygon_with_outline(&points, 0xFFFF00, 0xFFFFFF, 2);
-
-    window
-        .update_with_buffer(&framebuffer.buffer, framebuffer_width, framebuffer_height)
-        .unwrap();
-
-    std::thread::sleep(close_delay);
+        std::thread::sleep(frame_delay);
+    }
 }
