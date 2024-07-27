@@ -69,8 +69,8 @@ fn main() {
     let window_width = 300;
     let window_height = 300;
 
-    let framebuffer_width = 200;
-    let framebuffer_height = 200;
+    let framebuffer_width = 180;
+    let framebuffer_height = 180;
 
     let frame_delay = Duration::from_millis(100);
 
@@ -88,12 +88,15 @@ fn main() {
     draw_cells_from_rle(rle_expression3, 13, 13, &mut cells);
 
     let rle_expression4 = "obo$b2o$bo17$20bo$21b2o$20b2o5$51b2o$52bo$52bobo$42bo10b2o$40b3o$39bo$39b2o$24b2o48b2o$25bo48b2o$25bob2o$26bo2bo23bo$27b2o24bo$42b2o9b3o$42b2o11bo4$51bo3b2o$50bobo3bo$49bobo3bo$45b2obobo3bo$45b2obo2b4obo5b2o$49bobo3bobo5bo$45b2ob2o2bo2bobo2b3o$46bobo2b2o3bo3bo$34b2o10bobo$34b2o11bo!";
-    draw_cells_from_rle(rle_expression4, 100,120, &mut cells);
+    draw_cells_from_rle(rle_expression4, 100,130, &mut cells);
     draw_cells_from_rle(rle_expression4, 100,50, &mut cells);
-    draw_cells_from_rle(rle_expression4, 40,120, &mut cells);
+    draw_cells_from_rle(rle_expression4, 40,130, &mut cells);
 
-    let rle_expression5 = "6b2o$2b2o6b2o$bo10bo$bobo6bobo$2obob4obob2o$3bob4obo$2obo6bob2o$bobo2b2o2bobo$bo2bob2obo2bo$2bob2o2b2obo$b2ob2o2b2ob2o2$b2o2b4o2b2o$obo2bo2bo2bobo$bo10bo!";
+    let rle_expression5 = "13bo4bo$5b2o4b2ob4ob2o$4b2o7bo4bo$4bo2bo$2b2ob2o$b2obo$bo2bo$3bo4$bo$bo$obo$bo$bo$bo$bo$obo$bo$bo!";
     draw_cells_from_rle(&rle_expression5, 10, 90, &mut cells);
+
+    let rle_expression6 = "27bo12b2o12bo$18bo8bo10bo4bo10bo8bo$18bo8bo9bo6bo9bo8bo$18bo17bo8bo17bo$23b3o3b3o4bo8bo4b3o3b3o$b2o2bo4bo3b3o3b3o13bo8bo13b3o3b3o3bo4bo2b2o$bo3bo3b2o16bo9bo6bo9bo16b2o3bo3bo$2bo2bo4bo7bo8bo10bo4bo10bo8bo7bo4bo2bo$3bo4b2o8bo8bo12b2o12bo8bo8b2o4bo$4bo2b3o2bo5bo44bo5bo2b3o2bo$2o4b2o3bob2o52b2obo3b2o4b2o$obo6bo5bo50bo5bo6bobo$2bo6b2o3b2o50b2o3b2o6bo$b2ob2ob2o3bo56bo3b2ob2ob2o$o2bob2o4bo58bo4b2obo2bo$bobobo5bobo54bobo5bobobo$2ob2o2bobob2obo52bob2obobo2b2ob2o$2bobobob2o4bo52bo4b2obobobo$2bobobo4b3o54b3o4bobobo$3b2obob2obo58bob2obob2o$7bob2o60b2obo!";
+    draw_cells_from_rle(&rle_expression6, 70, 100, &mut cells);
 
     let mut window = Window::new(
         "Rust Graphics - Game of Life",
